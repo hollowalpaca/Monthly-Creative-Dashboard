@@ -858,26 +858,26 @@ function buildCohortCharts(idx) {
 const marKPIs={
   total:["1,044","589 int / 455 ext","vs 709 Feb '26","up"],
   concepts:["372","224 int / 148 ext","332 net new / 40 iter","up"],
-  scaled:["5","3 int / 2 ext","vs 10 Feb '26","down"],
-  bt:["9","7 int / 2 ext","vs 5 Feb '26","up"],
+  scaled:["9","7 int / 2 ext","vs 10 Feb '26","neutral"],
+  bt:["5","3 int / 2 ext","vs 5 Feb '26","neutral"],
   cycle:["0.77x","NB ROAS","$1.24M total spend","down"],
 };
 
 const marCS = {
   cjo:{cs:'0.74',con:14,ast:33,sta:27,vid:6,spd:'$37k',bt:0},
   blp:{cs:'0.84',con:76,ast:172,sta:100,vid:72,spd:'$327.4k',bt:3},
-  rir:{cs:'0.78',con:64,ast:169,sta:120,vid:49,spd:'$185.2k',bt:1},
-  cna:{cs:'0.74',con:65,ast:192,sta:122,vid:70,spd:'$152.9k',bt:3},
+  rir:{cs:'0.78',con:64,ast:169,sta:120,vid:49,spd:'$185.2k',bt:0},
+  cna:{cs:'0.74',con:65,ast:192,sta:122,vid:70,spd:'$152.9k',bt:0},
   glr:{cs:'—',con:'—',sta:'—',ast:'—',vid:'—',spd:'—',bt:'—'},
   leg:{cs:'0.73',con:'—',sta:'—',ast:'—',vid:'—',spd:'$88.7k',bt:'—'},
-  tot:{con:219,ast:566,sta:369,vid:197,spd:'$791.2k',bt:7}
+  tot:{con:219,ast:566,sta:369,vid:197,spd:'$791.2k',bt:3}
 };
 const marED = {
-  gui:{con:23,vid:52,bt:3},
-  bra:{con:22,vid:53,bt:3},
+  gui:{con:23,vid:52,bt:1},
+  bra:{con:22,vid:53,bt:1},
   ev:{con:'—',vid:'—',bt:'—'},
   kk:{con:33,vid:109,bt:1},
-  tot:{con:78,vid:214,bt:7}
+  tot:{con:78,vid:214,bt:3}
 };
 const marDES = {
   jer:{con:'—',sta:'—',bt:'—'},
@@ -891,15 +891,15 @@ const marAG = {
   tot:{con:136,ast:413,spd:'$376.9k',roas:'0.73',btr:2}
 };
 
-const marSourceD={labels:['Concepts','Assets','Scaled','BT'],int:[224,589,3,7],ext:[148,455,2,2]};
+const marSourceD={labels:['Concepts','Assets','Scaled','BT'],int:[224,589,7,3],ext:[148,455,2,2]};
 
-const marBTsrc={scaled:[3,2],bt:[7,2]};
+const marBTsrc={scaled:[7,2],bt:[3,2]};
 
-const marBTperson={labels:['Christina','Lucas','Regina','Carly','10xROAS','Growth Pod'],bt:[3,3,1,0,0,2]};
+const marBTperson={labels:['Christina','Lucas','Regina','Carly','10xROAS','Growth Pod'],bt:[0,3,0,0,0,2]};
 
 const marBTteam = {
-  cs:  {labels:['Christina','Lucas','Regina','Carly'], data:[3,3,1,0]},
-  prod:{labels:['Guillermo','Brandon','Konstant K','Kay'], data:[3,3,1,0]}
+  cs:  {labels:['Christina','Lucas','Regina','Carly'], data:[0,3,0,0]},
+  prod:{labels:['Guillermo','Brandon','Konstant K','Kay'], data:[1,1,1,0]}
 };
 
 const marCohorts = {
