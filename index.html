@@ -141,6 +141,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
     <span class="ctl-label">Month</span>
     <button class="mbtn active" onclick="setMonth(0,this)">Jan '26</button>
     <button class="mbtn" onclick="setMonth(1,this)">Feb '26</button>
+    <button class="mbtn" onclick="setMonth(2,this)">Mar '26</button>
   </div>
 
   <div class="tabs">
@@ -312,6 +313,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
         <tbody>
           <tr><td>10xROAS <span style="font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:0.08em;">VIDEO</span></td><td class="hi" id="ag-10x-con">—</td><td class="hi" id="ag-10x-ast">255</td><td class="r" id="ag-10x-spd">$89k</td><td class="up" id="ag-10x-roas">0.38</td><td class="up" id="ag-10x-btr">0.31</td></tr>
           <tr><td id="ag-gp-name">Growth Pod <span style="font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:0.08em;">STATICS</span></td><td class="hi" id="ag-gp-con">—</td><td class="hi" id="ag-gp-ast">116</td><td class="r" id="ag-gp-spd">$38k</td><td class="r" id="ag-gp-roas">0.27</td><td class="r" id="ag-gp-btr">0.20</td></tr>
+          <tr id="ag-adc-row" style="display:none;"><td>AdCrate <span style="font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:0.08em;">STATICS</span></td><td class="hi" id="ag-adc-con">—</td><td class="hi" id="ag-adc-ast">—</td><td class="r" id="ag-adc-spd">—</td><td class="r" id="ag-adc-roas">—</td><td class="r" id="ag-adc-btr">—</td></tr>
           <tr class="tot"><td>Total</td><td class="r" id="ag-tot-con">—</td><td class="r" id="ag-tot-ast">371</td><td class="r" id="ag-tot-spd">$127k</td><td class="r" id="ag-tot-roas">0.33</td><td class="r" id="ag-tot-btr">0.26</td></tr>
         </tbody>
       </table>
@@ -452,14 +454,14 @@ const febKPIs={
 function setMonth(idx,btn){
   document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const d=idx===0?janKPIs:febKPIs;
+  const d=[janKPIs,febKPIs,marKPIs][idx];
   ['total','concepts','scaled','bt','cycle'].forEach(k=>{
     document.getElementById('kv-'+k).textContent=d[k][0];
     document.getElementById('ks-'+k).textContent=d[k][1];
     const el=document.getElementById('kd-'+k);
     el.textContent=d[k][2];el.className='kpi-delta '+d[k][3];
   });
-  document.getElementById('ss-sub').textContent='Internal vs external — '+(idx===0?"Jan '26":"Feb '26");
+  document.getElementById('ss-sub').textContent='Internal vs external — '+["Jan '26","Feb '26","Mar '26"][idx];
   const cycleLabel=document.getElementById('kl-cycle');
   if(cycleLabel) cycleLabel.textContent='NB ROAS';
   updateTables(idx);
@@ -519,13 +521,13 @@ const BASE={
   }
 };
 
-const M20=["Jul/24","Aug/24","Sep/24","Oct/24","Nov/24","Dec/24","Jan/25","Feb/25","Mar/25","Apr/25","May/25","Jun/25","Jul/25","Aug/25","Sep/25","Oct/25","Nov/25","Dec/25","Jan/26","Feb/26"];
+const M20=["Jul/24","Aug/24","Sep/24","Oct/24","Nov/24","Dec/24","Jan/25","Feb/25","Mar/25","Apr/25","May/25","Jun/25","Jul/25","Aug/25","Sep/25","Oct/25","Nov/25","Dec/25","Jan/26","Feb/26","Mar/26"];
 new Chart(document.getElementById('c-monthly'),{
   type:'bar',
   data:{labels:M20,datasets:[
-    {label:'Statics',data:[62,148,112,286,158,176,115,102,169,549,642,692,836,1352,1117,565,688,463,251,371],backgroundColor:GR,stack:'s'},
-    {label:'Video',data:[24,80,16,97,121,162,117,112,164,111,158,432,781,950,875,941,897,821,547,338],backgroundColor:'rgba(7,48,38,0.9)',stack:'s'},
-    {label:'Total',data:[86,228,128,383,279,338,232,214,333,660,800,1124,1617,2302,1992,1506,1585,1284,798,709],type:'line',borderColor:SD,backgroundColor:'transparent',pointRadius:2,borderWidth:1.5,tension:0.4,yAxisID:'y'}
+    {label:'Statics',data:[62,148,112,286,158,176,115,102,169,549,642,692,836,1352,1117,565,688,463,251,371,552],backgroundColor:GR,stack:'s'},
+    {label:'Video',data:[24,80,16,97,121,162,117,112,164,111,158,432,781,950,875,941,897,821,547,338,492],backgroundColor:'rgba(7,48,38,0.9)',stack:'s'},
+    {label:'Total',data:[86,228,128,383,279,338,232,214,333,660,800,1124,1617,2302,1992,1506,1585,1284,798,709,1044],type:'line',borderColor:SD,backgroundColor:'transparent',pointRadius:2,borderWidth:1.5,tension:0.4,yAxisID:'y'}
   ]},
   options:{...BASE,
     interaction:{mode:'index',intersect:false},
@@ -541,12 +543,12 @@ new Chart(document.getElementById('c-monthly'),{
   }
 });
 
-const CM=["Jun/25","Jul/25","Aug/25","Sep/25","Oct/25","Nov/25","Dec/25","Jan/26","Feb/26"];
+const CM=["Jun/25","Jul/25","Aug/25","Sep/25","Oct/25","Nov/25","Dec/25","Jan/26","Feb/26","Mar/26"];
 new Chart(document.getElementById('c-concepts'),{
   type:'bar',
   data:{labels:CM,datasets:[
-    {label:'Net New',data:[86,123,159,275,299,423,381,262,240],backgroundColor:GR,stack:'s'},
-    {label:'Iterations',data:[56,80,172,80,60,152,54,44,76],backgroundColor:'rgba(7,48,38,0.85)',stack:'s'}
+    {label:'Net New',data:[86,123,159,275,299,423,381,262,240,332],backgroundColor:GR,stack:'s'},
+    {label:'Iterations',data:[56,80,172,80,60,152,54,44,76,40],backgroundColor:'rgba(7,48,38,0.85)',stack:'s'}
   ]},
   options:{...BASE,
     interaction:{mode:'index',intersect:false},
@@ -679,10 +681,10 @@ const febAG = {
 };
 
 function updateTables(idx) {
-  const cs = idx===0?janCS:febCS;
-  const ed = idx===0?janED:febED;
-  const des = idx===0?janDES:febDES;
-  const ag = idx===0?janAG:febAG;
+  const cs = [janCS,febCS,marCS][idx];
+  const ed = [janED,febED,marED][idx];
+  const des = [janDES,febDES,marDES][idx];
+  const ag = [janAG,febAG,marAG][idx];
 
   // CS table
   const csMap = {cna:'cna',blp:'blp',rir:'rir',cjo:'cjo'};
@@ -732,7 +734,7 @@ function updateTables(idx) {
   });
 
   // Agencies table
-  const agLabels = ['AdCrate','Growth Pod'];
+  const agLabels = ['AdCrate','Growth Pod','Growth Pod'];
   const agNameEl = document.getElementById('ag-gp-name');
   if(agNameEl) agNameEl.innerHTML = agLabels[idx]+' <span style="font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:0.08em;">STATICS</span>';
   const agMap = {x10:'10x',gp:'gp'};
@@ -749,6 +751,15 @@ function updateTables(idx) {
       });
     }
   });
+  // AdCrate row — only visible in March
+  const adcRow = document.getElementById('ag-adc-row');
+  if(adcRow) adcRow.style.display = idx===2 ? '' : 'none';
+  if(idx===2 && ag.adc) {
+    Object.entries(ag.adc).forEach(([f,val]) => {
+      const el = document.getElementById('ag-adc-'+f);
+      if(el) el.textContent = val;
+    });
+  }
 
   // Update agency cards
   const gpLabel = idx===0 ? 'AdCrate' : 'Growth Pod';
@@ -801,7 +812,7 @@ const febCohorts = {
 let cohortAssetsChart, cohortSpendChart;
 
 function buildCohortCharts(idx) {
-  const d = idx===0 ? janCohorts : febCohorts;
+  const d = [janCohorts,febCohorts,marCohorts][idx];
   document.getElementById('cohort-sub').textContent = 'By collection — ' + (idx===0?"Jan '26":"Feb '26");
 
   if(cohortAssetsChart) cohortAssetsChart.destroy();
@@ -843,6 +854,71 @@ function buildCohortCharts(idx) {
 }
 
 // Build initial cohort charts for Jan
+// ── MARCH DATA ──
+const marKPIs={
+  total:["1,044","589 int / 455 ext","vs 709 Feb '26","up"],
+  concepts:["372","224 int / 148 ext","332 net new / 40 iter","up"],
+  scaled:["5","3 int / 2 ext","vs 10 Feb '26","down"],
+  bt:["9","7 int / 2 ext","vs 5 Feb '26","up"],
+  cycle:["0.77x","NB ROAS","$1.24M total spend","down"],
+};
+
+const marCS = {
+  cjo:{cs:'0.74',con:14,ast:33,sta:27,vid:6,spd:'$37k',bt:0},
+  blp:{cs:'0.84',con:76,ast:172,sta:100,vid:72,spd:'$327.4k',bt:3},
+  rir:{cs:'0.78',con:64,ast:169,sta:120,vid:49,spd:'$185.2k',bt:1},
+  cna:{cs:'0.74',con:65,ast:192,sta:122,vid:70,spd:'$152.9k',bt:3},
+  glr:{cs:'—',con:'—',sta:'—',ast:'—',vid:'—',spd:'—',bt:'—'},
+  leg:{cs:'0.73',con:'—',sta:'—',ast:'—',vid:'—',spd:'$88.7k',bt:'—'},
+  tot:{con:219,ast:566,sta:369,vid:197,spd:'$791.2k',bt:7}
+};
+const marED = {
+  gui:{con:23,vid:52,bt:3},
+  bra:{con:22,vid:53,bt:3},
+  ev:{con:'—',vid:'—',bt:'—'},
+  kk:{con:33,vid:109,bt:1},
+  tot:{con:78,vid:214,bt:7}
+};
+const marDES = {
+  jer:{con:'—',sta:'—',bt:'—'},
+  kay:{con:105,sta:280,bt:0},
+  tot:{con:105,sta:280,bt:0}
+};
+const marAG = {
+  x10:{con:82,ast:246,spd:'$310.5k',roas:'0.72',btr:0},
+  gp:{con:53,ast:159,spd:'$59.2k',roas:'0.79',btr:2},
+  adc:{con:1,ast:8,spd:'$7.2k',roas:'0.77',btr:0},
+  tot:{con:136,ast:413,spd:'$376.9k',roas:'0.73',btr:2}
+};
+
+const marSourceD={labels:['Concepts','Assets','Scaled','BT'],int:[224,589,3,7],ext:[148,455,2,2]};
+
+const marBTsrc={scaled:[3,2],bt:[7,2]};
+
+const marBTperson={labels:['Christina','Lucas','Regina','Carly','10xROAS','Growth Pod'],bt:[3,3,1,0,0,2]};
+
+const marBTteam = {
+  cs:  {labels:['Christina','Lucas','Regina','Carly'], data:[3,3,1,0]},
+  prod:{labels:['Guillermo','Brandon','Konstant K','Kay'], data:[3,3,1,0]}
+};
+
+const marCohorts = {
+  labels:['Everyday','Hunt','Compression','Ski/Snow','Run','Trades'],
+  concepts:[32,9,152,10,15,6],
+  assets:[90,12,412,31,25,19],
+  statics:[55,4,277,25,16,16],
+  videos:[35,8,135,6,9,3],
+  roas:[0.83,0.40,0.79,0.59,0.79,0.91],
+  spend:[314892,9753,747043,6079,30935,82967]
+};
+
+const marCSA={concepts:[65,76,64,14],assets:[192,172,169,33]};
+
+const marIntExtSpend={int:791.2,ext:451.9,intRoas:0.79,extRoas:0.73};
+const marCSSpend={data:[152.9,327.4,185.2,37.0,88.7],total:791.2};
+
+const marAgSpend={labels:['10xROAS','Growth Pod','AdCrate'],data:[310.5,59.2,7.2]};
+const marAgROAS={labels:['10xROAS','Growth Pod','AdCrate'],data:[0.72,0.79,0.77]};
 buildCohortCharts(0);
 
 // ── BREAKTHROUGH ADS BY TEAM MEMBER ──
@@ -857,7 +933,7 @@ const febBTteam = {
 
 let btCSChart, btProdChart;
 function buildBTcharts(idx) {
-  const d = idx===0 ? janBTteam : febBTteam;
+  const d = [janBTteam,febBTteam,marBTteam][idx];
   const label = idx===0 ? "Jan '26" : "Feb '26";
   document.getElementById('bt-team-sub').textContent =
     'Ads hitting $5k+ spend at 0.45+ NB ROAS \u2014 ' + label;
@@ -925,21 +1001,22 @@ const febCSSpend={data:[114.0,302.0,347.3,11.3,24.2],total:798.7};
 const janAgSpend={labels:['10xROAS','AdCrate'],data:[551.2,125.8]};
 const febAgSpend={labels:['10xROAS','Growth Pod'],data:[389.6,0]};
 
+
 const janAgROAS={labels:['10xROAS','AdCrate'],data:[0.70,0.70]};
 const febAgROAS={labels:['10xROAS','Growth Pod'],data:[0.80,0]};
 
 const CS_COLORS=['rgba(74,158,122,0.9)','rgba(229,220,202,0.5)','rgba(7,48,38,0.9)','rgba(74,158,122,0.4)','rgba(229,220,202,0.2)'];
 
 function buildMonthCharts(idx){
-  const mo = idx===0?"Jan '26":"Feb '26";
-  const src  = idx===0?janSourceD:febSourceD;
-  const bts  = idx===0?janBTsrc:febBTsrc;
-  const btp  = idx===0?janBTperson:febBTperson;
-  const csa  = idx===0?janCSA:febCSA;
-  const cssp = idx===0?janCSSpend:febCSSpend;
-  const ags  = idx===0?janAgSpend:febAgSpend;
-  const agr  = idx===0?janAgROAS:febAgROAS;
-  const iex  = idx===0?janIntExtSpend:febIntExtSpend;
+  const mo = ["Jan '26","Feb '26","Mar '26"][idx];
+  const src  = [janSourceD,febSourceD,marSourceD][idx];
+  const bts  = [janBTsrc,febBTsrc,marBTsrc][idx];
+  const btp  = [janBTperson,febBTperson,marBTperson][idx];
+  const csa  = [janCSA,febCSA,marCSA][idx];
+  const cssp = [janCSSpend,febCSSpend,marCSSpend][idx];
+  const ags  = [janAgSpend,febAgSpend,marAgSpend][idx];
+  const agr  = [janAgROAS,febAgROAS,marAgROAS][idx];
+  const iex  = [janIntExtSpend,febIntExtSpend,marIntExtSpend][idx];
 
   // Update subtitles
   const subs={
@@ -948,7 +1025,7 @@ function buildMonthCharts(idx){
     'sub-cs-assets':'Concepts (primary) + total assets — '+mo,
     'sub-editors':'Video output — '+mo,
     'sub-designers':'Static designer output — '+mo,
-    'sub-agencies':idx===0?'External creative partners — '+mo+' | Growth Pod not yet active':'External creative partners — '+mo+' | AdCrate no longer active',
+    'sub-agencies':["External creative partners — "+mo+" | Growth Pod not yet active","External creative partners — "+mo+" | AdCrate no longer active","External creative partners — "+mo+" | Growth Pod + AdCrate active"][idx],
     'sub-ag-spend':'By agency — '+mo,
     'sub-ag-roas':'NB ROAS — '+mo
   };
